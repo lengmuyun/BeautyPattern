@@ -6,4 +6,8 @@ public class Notification {
 
     }
 
+    public enum NotificationEmergencyLevel {
+        SEVERE, URGENCY
+    }
+
 }

@@ -15,10 +15,12 @@ public class AlertRule {
 
         private long maxTps;
         private long maxErrorCount;
+        private long maxTimeoutTps;
 
-        public ApiRule(long maxTps, long maxErrorCount) {
+        public ApiRule(long maxTps, long maxErrorCount, long maxTimeoutTps) {
             this.maxTps = maxTps;
             this.maxErrorCount = maxErrorCount;
+            this.maxTimeoutTps = maxTimeoutTps;
         }
 
         long getMaxTps() {
@@ -27,6 +29,10 @@ public class AlertRule {
 
         long getMaxErrorCount() {
             return maxErrorCount;
+        }
+
+        public long getMaxTimeoutTps() {
+            return maxTimeoutTps;
         }
     }
 }

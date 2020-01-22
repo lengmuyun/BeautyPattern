@@ -1,23 +1,18 @@
 package org.geekbang.time.principle.ocp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Alert {
 
-    private AlertRule rule;
-    private Notification notification;
+    private List<AlertHandler> handlers = new ArrayList<>();
 
-    public Alert(AlertRule rule, Notification notification) {
-        this.rule = rule;
-        this.notification = notification;
+    public void addHandler(AlertHandler handler) {
+        handlers.add(handler);
     }
 
-    public void check(String api, long requestCount, long errorCount, long durationOfSeconds) {
-        long tps = requestCount / durationOfSeconds;
-        if (tps > rule.getMatchedRule(api).getMaxTps()) {
-            notification.notify(NotificationEmergencyLevel.URGENCY, "....");
-        }
-        if (errorCount > rule.getMatchedRule(api).getMaxErrorCount()) {
-            notification.notify(NotificationEmergencyLevel.SEVERE, "...");
-        }
+    public void check(ApiStatInfo apiStatInfo) {
+        handlers.forEach(handler -> handler.check(apiStatInfo));
     }
     
 }

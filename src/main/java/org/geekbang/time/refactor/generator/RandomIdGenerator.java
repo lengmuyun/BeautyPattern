@@ -11,8 +11,13 @@ public class RandomIdGenerator implements IdGenerator {
     private static final Logger logger = LoggerFactory.getLogger(RandomIdGenerator.class);
 
     @Override
-    public String generate() {
-        String hostName = getLastfieldOfHostName();
+    public String generate() throws IdGenerationFailureException {
+        String hostName = null;
+        try {
+            hostName = getLastfieldOfHostName();
+        } catch (UnknownHostException e) {
+            throw new IdGenerationFailureException("host name is empty.");
+        }
         String randomString = generateRandomAlphameric(8);
         long currentTimeMillis = System.currentTimeMillis();
         String id = String.format("%s-%d-%s", hostName, currentTimeMillis, randomString);
@@ -21,6 +26,9 @@ public class RandomIdGenerator implements IdGenerator {
 
     @VisibleForTesting
     protected String generateRandomAlphameric(int length) {
+        if (length <= 0) {
+            throw new IllegalArgumentException("length can not be less than zero.");
+        }
         char[] randomChars = new char[length];
         int count = 0;
         Random random = new Random();
@@ -38,19 +46,21 @@ public class RandomIdGenerator implements IdGenerator {
         return new String(randomChars);
     }
 
-    private String getLastfieldOfHostName() {
+    private String getLastfieldOfHostName() throws UnknownHostException {
         String substrOfHostName = null;
-        try {
-            String hostName = InetAddress.getLocalHost().getHostName();
-            substrOfHostName = getLastSubstrSplittedByDot(hostName);
-        } catch (UnknownHostException e) {
-            logger.warn("Failed to get the host name.", e);
+        String hostName = InetAddress.getLocalHost().getHostName();
+        if (hostName == null || hostName.isEmpty()) {
+            throw new UnknownHostException("...");
         }
+        substrOfHostName = getLastSubstrSplittedByDot(hostName);
         return substrOfHostName;
     }
 
     @VisibleForTesting
     protected String getLastSubstrSplittedByDot(String hostName) {
+        if (hostName == null || hostName.isEmpty()) {
+            throw new IllegalArgumentException("hostName can not be null.");
+        }
         String[] tokens = hostName.split("\\.");
         String substrOfHostName = tokens[tokens.length - 1];
         return substrOfHostName;

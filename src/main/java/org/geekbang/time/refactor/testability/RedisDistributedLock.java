@@ -14,8 +14,7 @@ public class RedisDistributedLock {
     }
 
     public boolean lockTransction(String id) {
-        boolean contains = set.contains(id);
-        if (contains) {
+        if (set.contains(id)) {
             return false;
         }
         set.add(id);

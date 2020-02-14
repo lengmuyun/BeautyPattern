@@ -5,7 +5,7 @@ import org.junit.Test;
 public class IdGeneratorTest {
 
     @Test
-    public void generate() {
+    public void generate() throws IdGenerationFailureException {
         IdGenerator generator = new RandomIdGenerator();
         for (int i=0; i<3; i++)
             System.out.println(generator.generate());

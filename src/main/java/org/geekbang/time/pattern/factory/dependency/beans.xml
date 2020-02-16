@@ -1,0 +1,10 @@
+<beans>
+    <bean id="rateLimiter" class="org.geekbang.time.pattern.factory.dependency.RateLimiter">
+        <constructor-arg ref="redisCounter"/>
+    </bean>
+
+    <bean id="redisCounter" class="org.geekbang.time.pattern.factory.dependency.RedisCounter" scope="singleton" lazy-init="true">
+        <constructor-arg type="String" value="127.0.0.1" />
+        <constructor-arg type="int" value="1234" />
+    </bean>
+</beans>

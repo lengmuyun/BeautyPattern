@@ -1,13 +1,53 @@
 package org.geekbang.time.principle.ocp;
 
-public class Notification {
+public abstract class Notification {
 
-    public void notify(NotificationEmergencyLevel level, String message) {
+    protected MsgSender msgSender;
 
+    public Notification(MsgSender msgSender) {
+        this.msgSender = msgSender;
     }
 
+    public abstract void notify(String message);
+
     public enum NotificationEmergencyLevel {
-        SEVERE, URGENCY
+        SEVERE, URGENCY, NORMAL
+    }
+
+    public static class SevereNotification extends Notification {
+
+        public SevereNotification(MsgSender msgSender) {
+            super(msgSender);
+        }
+
+        @Override
+        public void notify(String message) {
+
+        }
+    }
+
+    public static class UrgencyNotification extends Notification {
+
+        public UrgencyNotification(MsgSender msgSender) {
+            super(msgSender);
+        }
+
+        @Override
+        public void notify(String message) {
+
+        }
+    }
+
+    public static class NormalNotification extends Notification {
+
+        public NormalNotification(MsgSender msgSender) {
+            super(msgSender);
+        }
+
+        @Override
+        public void notify(String message) {
+
+        }
     }
 
 }

@@ -18,7 +18,7 @@ public class ApplicationContext {
 
     public void initializeBeans() {
         alertRule = new AlertRule();
-        notification = new Notification();
+        notification = null;
         alert = new Alert();
         alert.addHandler(new TpsAlertHandler(alertRule, notification));
         alert.addHandler(new ErrorAlertHandler(alertRule, notification));

@@ -27,7 +27,7 @@ public class ChessPieceUnit {
         return color;
     }
 
-    public static enum Color {
+    public enum Color {
         RED, BLACK
     }
 

@@ -1,6 +1,5 @@
 package org.geekbang.time.pattern.iterator;
 
-@Deprecated
 public class QuickSnapshotArrayIterator<E> implements Iterator<E> {
 
     private long snapshotTimestamp;
@@ -20,7 +19,7 @@ public class QuickSnapshotArrayIterator<E> implements Iterator<E> {
         this.arrayList = arrayList;
 
         // 先跳到这个迭代器快照的第一个元素
-        justNext();
+        moveToFirst();
     }
 
     @Override
@@ -35,12 +34,25 @@ public class QuickSnapshotArrayIterator<E> implements Iterator<E> {
         return e;
     }
 
+    public int getCursorInAll() {
+        return cursorInAll;
+    }
+
+    private void moveToFirst() {
+        justMove(true);
+    }
+
     private void justNext() {
+        justMove(false);
+    }
+
+    private void justMove(boolean moveToFirst) {
         while (cursorInAll < arrayList.getTotalSize()) {
-            long addTimestamp = arrayList.getAddTimestamp(cursorInAll);
-            long delTimestamp = arrayList.getDelTimestamp(cursorInAll);
-            if (snapshotTimestamp > addTimestamp && snapshotTimestamp < delTimestamp) {
+            if (arrayList.isExists(cursorInAll, snapshotTimestamp)) {
                 leftCount--;
+                if (!moveToFirst) {
+                    cursorInAll++;
+                }
                 break;
             }
             cursorInAll++;

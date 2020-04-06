@@ -54,16 +54,10 @@ public class ArrayList<E> {
         }
     }
 
-    public long getAddTimestamp(int i) {
-        checkRange(i);
-        Element element = (Element) elements[i];
-        return element.addTimestamps;
-    }
-
-    public long getDelTimestamp(int i) {
-        checkRange(i);
-        Element element = (Element) elements[i];
-        return element.delTimestamps;
+    public boolean isExists(int index, long snapshotTimestamp) {
+        checkRange(index);
+        Element element = (Element) elements[index];
+        return element.isExists(snapshotTimestamp);
     }
 
     public static class Element<E> {
@@ -76,6 +70,10 @@ public class ArrayList<E> {
             this.data = data;
             this.addTimestamps = System.currentTimeMillis();
             this.delTimestamps = Long.MAX_VALUE;
+        }
+
+        public boolean isExists(long snapshotTimestamp) {
+            return snapshotTimestamp > addTimestamps && snapshotTimestamp < delTimestamps;
         }
 
     }

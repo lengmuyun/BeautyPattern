@@ -5,8 +5,11 @@ import java.util.NoSuchElementException;
 
 public class ArrayIterator<E> implements Iterator<E> {
 
-    private int cursor;
-    private final ArrayList<E> arrayList;
+    protected int cursor;
+    protected ArrayList<E> arrayList;
+
+    protected ArrayIterator() {
+    }
 
     public ArrayIterator(ArrayList<E> list) {
         this.cursor = 0;
@@ -19,16 +22,13 @@ public class ArrayIterator<E> implements Iterator<E> {
     }
 
     @Override
-    public void next() {
-        cursor++;
-    }
-
-    @Override
-    public E currentItem() {
+    public E next() {
         if (cursor >= arrayList.size()) {
             throw new NoSuchElementException();
         }
-        return arrayList.get(cursor);
+        E e = arrayList.get(cursor);
+        cursor++;
+        return e;
     }
 
 }

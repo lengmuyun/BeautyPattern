@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,23 +32,19 @@ public class IteratorTest {
         }
     }
 
-
-
-    @Test
+    @Test(expected = ConcurrentModificationException.class)
     public void testDoubleRemove() {
         List<String> names = new ArrayList<>(list);
-
-        Iterator<String> iterator1 = names.iterator();
-        Iterator<String> iterator2 = names.iterator();
-        iterator1.next();
-        iterator1.remove();
-        iterator2.next(); // 运行结果？
+        testIteratorRemove(names);
     }
 
-    @Test
+    @Test(expected = ConcurrentModificationException.class)
     public void testLinkedDoubleRemove() {
         List<String> names = new LinkedList<>(list);
+        testIteratorRemove(names);
+    }
 
+    private void testIteratorRemove(List<String> names) {
         Iterator<String> iterator1 = names.iterator();
         Iterator<String> iterator2 = names.iterator();
         iterator1.next();

@@ -16,9 +16,8 @@ public class ArrayIteratorTest {
 
         ArrayIterator<String> iterator = new ArrayIterator<>(strings);
         while (iterator.hasNext()) {
-            String currentItem = iterator.currentItem();
+            String currentItem = iterator.next();
             System.out.println(currentItem);
-            iterator.next();
         }
     }
 

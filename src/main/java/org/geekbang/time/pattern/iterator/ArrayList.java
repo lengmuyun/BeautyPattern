@@ -26,7 +26,7 @@ public class ArrayList<E> {
 
     public void remove(E e) {
         for (int i=0; i<totalSize; i++) {
-            Element currentElement = (Element) elements[i];
+            Element<E> currentElement = (Element<E>) elements[i];
             if (currentElement.data.equals(e)) {
                 currentElement.delTimestamps = System.currentTimeMillis();
                 actualSize--;
@@ -44,8 +44,8 @@ public class ArrayList<E> {
 
     public E get(int i) {
         checkRange(i);
-        Element element = (Element) elements[i];
-        return (E) element.data;
+        Element<E> element = (Element<E>) elements[i];
+        return element.data;
     }
 
     private void checkRange(int i) {
@@ -56,7 +56,7 @@ public class ArrayList<E> {
 
     public boolean isExists(int index, long snapshotTimestamp) {
         checkRange(index);
-        Element element = (Element) elements[index];
+        Element<E> element = (Element<E>) elements[index];
         return element.isExists(snapshotTimestamp);
     }
 
